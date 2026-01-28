@@ -50,14 +50,9 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });
 
 
@@ -75,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                         coctailModels.add(coctailModel);
                     }
 
-                    int numberOfColums = 3;
+                    int numberOfColums = 1;
                     coctailRecycler.setLayoutManager(new GridLayoutManager(getApplicationContext(), numberOfColums));
                     adaptador = new CoctailRecycler(getApplicationContext(), coctailModels);
                     coctailRecycler.setAdapter(adaptador);
