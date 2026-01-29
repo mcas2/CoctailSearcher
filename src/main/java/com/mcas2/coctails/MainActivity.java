@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,8 +14,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.mcas2.coctails.api_handler.ApiClient;
+import com.mcas2.coctails.api_handler.ApiInterface;
 import com.mcas2.coctails.coctail_recycler.CoctailModel;
 import com.mcas2.coctails.coctail_recycler.CoctailRecycler;
+import com.mcas2.coctails.dto.DrinksDTO;
 
 import java.util.ArrayList;
 
@@ -60,24 +62,24 @@ public class MainActivity extends AppCompatActivity {
 
     public void fillCoctails(RecyclerView coctailRecycler, String search) {
         if (search.length() >= 3) {
-            Call<Drinks> call = apiInterface.getCoctailsByIngredient(search);
-            call.enqueue(new Callback<Drinks>() {
+            Call<DrinksDTO> call = apiInterface.getCoctailsByIngredient(search);
+            call.enqueue(new Callback<DrinksDTO>() {
                 @Override
-                public void onResponse(Call<Drinks> call, Response<Drinks> response) {
-                    Drinks coctails = response.body();
-                    for (Drinks.Coctail coctail : coctails.drinks) {
-                        CoctailModel coctailModel = new CoctailModel(coctail.coctailName, coctail.coctailImageUrl);
+                public void onResponse(Call<DrinksDTO> call, Response<DrinksDTO> response) {
+                    DrinksDTO coctails = response.body();
+                    for (DrinksDTO.Coctail coctail : coctails.drinks) {
+                        CoctailModel coctailModel = new CoctailModel(coctail.coctailName, coctail.coctailImageUrl, coctail.coctailId);
                         coctailModels.add(coctailModel);
                     }
 
-                    int numberOfColums = 1;
+                    int numberOfColums = 2;
                     coctailRecycler.setLayoutManager(new GridLayoutManager(getApplicationContext(), numberOfColums));
                     adaptador = new CoctailRecycler(getApplicationContext(), coctailModels);
                     coctailRecycler.setAdapter(adaptador);
                 }
 
                 @Override
-                public void onFailure(Call<Drinks> call, Throwable t) {
+                public void onFailure(Call<DrinksDTO> call, Throwable t) {
                     Log.d("CALL -> no funcionó", t.toString());
                 }
             });

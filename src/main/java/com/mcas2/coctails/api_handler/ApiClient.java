@@ -1,4 +1,4 @@
-package com.mcas2.coctails;
+package com.mcas2.coctails.api_handler;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
